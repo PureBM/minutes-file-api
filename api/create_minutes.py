@@ -8,12 +8,14 @@ app = Flask(__name__)
 @app.post("/api/create_minutes")
 def create_minutes():
     data = request.get_json()
-    minutes_text = data.get("minutes","")
-    actions = data.get("actions",[])
+    minutes_text = data.get("minutes", "")
+    actions = data.get("actions", [])
+    title = data.get("title", "Meeting")  # default if not provided
+
 
     # Build Word file
     doc = Document()
-    doc.add_heading(f"Meeting Minutes – {date.today()}", 0)
+    doc.add_heading(f"{title} – {date.today()}", 0)
     doc.add_paragraph(minutes_text)
     word_stream = io.BytesIO()
     doc.save(word_stream)
